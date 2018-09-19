@@ -2,6 +2,7 @@
 
 import discord
 import os
+import lib.builds as Builds
 
 try:
     TOKEN = os.environ['DISCORD_TOKEN']
@@ -22,7 +23,12 @@ async def on_message(message):
         return
 
     if message.content == "!test":
-        await message.channel.send("HELLO {0.author.mention}. I AM READY TO SERVE.".format(message))
+        await client.send_message(message.channel, "HELLO {0.author.mention}. I AM READY TO SERVE.".format(message))
+
+    if message.content.startswith("!build"):
+        parts = message.content.split(" ")
+        build_link = Builds.get_build(parts[1], parts[2])
+        await client.send_message(message.channel, build_link)
 
 
 client.run(TOKEN)
